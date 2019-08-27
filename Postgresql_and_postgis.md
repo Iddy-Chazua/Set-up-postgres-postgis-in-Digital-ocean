@@ -1,4 +1,4 @@
-### Configuration and installation of PostgreSQL/PostGIS.
+### Configuration and installation of PostgreSQL and PostGIS.
 
 ### Introduction.
   
@@ -53,7 +53,7 @@ This will install PostgreSQL and PostGIS.
 
 - Modify the default user on the database server using psql.
 	
-      `sudo -u postges psql`
+      `sudo -u postgres psql`
  
   Then change the password for the user postgres by typing:
 	\password postgres      Required to enter the password twice.
@@ -89,8 +89,6 @@ Run the command \l to ensure that database is created successful then you will s
      `CREATE EXTENSION postgis`; Enables PostGIS with raster support
 
      `CREATE EXTENSION postgis_topology`; Enables topology
-
-     `CREATE EXTENSION postgis_sfcgal`; Enables PostGIS Advanced 3D and other geoprocessing algorithms
 
 Note that you will need to enable the PostGIS extensions on each new database
 . 
