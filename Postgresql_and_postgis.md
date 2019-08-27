@@ -56,13 +56,7 @@ This will install PostgreSQL and PostGIS.
       `sudo -u postges psql`
  
   Then change the password for the user postgres by typing:
-	\password postgres      Required to enter the password twice, then you can create a new user as:
-
-	# createuser --superuser $USERNAME OR
-	
-        # createuser --interactive $USERNAME.
-
-NOTE:It does not mean that username must be in capital letter.
+	\password postgres      Required to enter the password twice.
 
 Quit psql with the command:
 
@@ -92,11 +86,11 @@ Run the command \l to ensure that database is created successful then you will s
 
 - Run the following commands to enable PostGIS on the gis database:
 
-     CREATE EXTENSION postgis; Enables PostGIS with raster support
+     `CREATE EXTENSION postgis`; Enables PostGIS with raster support
 
-     CREATE EXTENSION postgis_topology; Enables topology
+     `CREATE EXTENSION postgis_topology`; Enables topology
 
-     CREATE EXTENSION postgis_sfcgal; Enables PostGIS Advanced 3D and other geoprocessing algorithms
+     `CREATE EXTENSION postgis_sfcgal`; Enables PostGIS Advanced 3D and other geoprocessing algorithms
 
 Note that you will need to enable the PostGIS extensions on each new database
 . 
@@ -117,20 +111,22 @@ Hence, if you create a new database for a project, you will need to enable the e
 To enable remote access to the database server, you must first add a listening address. To listen to any address (enter star), edit the postgresql.conf file with the following command:
 
  `sudo nano /etc/postgresql/10/main/postgresql.conf`
+ 
+- Note: to do this command you are required to install nano: `sudo apt install nano`
 
 - if you run the previous command and the file appears to be empty, you did something wrong. Ensure that your PostgreSQL version is the one written there.on our case our verion was 10 or you simply mistyped the command. Exit nano with ctrl-x, do not save the changes, and try again.
 
 Once in the ***postgresql.conf file***, scroll down to the Connection Settings section and change the line that reads:
 
-#listen_addresses = ëlocalhostí
+#listen_addresses = ‚Äòlocalhost‚Äô
 
-ToÖ
+To‚Ä¶
 
 listen_addresses = '*'
 
 Make sure you remove the # at the start of the line. Press ctrl-x to exit. Save the changes when prompted.
 
-To grant access to the database server for all users, edit the pg_hba.conf file and add the line ëhost all all 0.0.0.0/0 md5í.
+To grant access to the database server for all users, edit the pg_hba.conf file and add the line ‚Äòhost all all 0.0.0.0/0 md5‚Äô.
 
 Edit the ***pg_hba.conf file***
 
@@ -149,27 +145,69 @@ In order for these changes to take effect, PostgreSQL needs to be restarted. Do 
 
 5. Test configuration in QGIS
 
-In this optional step, you can test the connection from the host machine if you have QGIS installed. First, you need to determine the local IP address of the GIS test server. In the serverís terminal, get the current IPV4  address with the following command:
+In this optional step, you can test the connection from the host machine if you have QGIS installed. First, you need to determine the local IP address of the GIS test server. In the server‚Äôs terminal, get the current IPV4  address with the following command:
 
 - Write ifconfg command
 
-The IP needed is after ëinet addrí.
+The IP needed is after ‚Äòinet addr‚Äô.
 
 #### In QGIS:
 
 - locate the Browser Panel and right-click on ***PostGIS.***
 
-   Click ì***new connection***î
+   Click ‚Äú***new connection***‚Äù
 
 - Enter a name for the connection (e.g. GIS test server), the IP address for the Host (inet addr determined in previous step), do not change the port from 5432, and use gis as the Database.
 
-- Enter ***postgres*** as the username and its password ó do not mistakenly use the server password here as you need to use the one associated with the ***postgres*** user. Check both to save the credentials (again, not secure, but fine for a test server).
+- Enter ***postgres*** as the username and its password ‚Äî do not mistakenly use the server password here as you need to use the one associated with the ***postgres*** user. Check both to save the credentials (again, not secure, but fine for a test server).
 
-If all goes well, when you click on the Test Connection button, you should see ìConnection to gis was successfulî.
+If all goes well, when you click on the Test Connection button, you should see ‚ÄúConnection to gis was successful‚Äù.
 
 Things to note: database names, usernames, and passwords are all case sensitive with PostgreSQL. I try to use lowercase words consistently throughout the database for every database, table, schema, group, and user. If for some reason you cannot connect to the database, go back to the beginning of this tutorial and make sure you followed each step.
 
 At this point, the geodatabase should be up and running.
+
+### Possible challenges that could be encountered in the steps above and their solutions:
+
+1. Challenges in PostgreSQL and PostGIS installation:
+  
+  - a minor mistake when writing the commands could result to failure during the installation. Hence one should write the command correctly for proper installation.
+  
+2. Challenges during creation of database.
+
+  - during creation of database, when writing CREATE DATABASE make sure it's written in **capital letters** writing it in small letters would lead to errors.
+  
+  - also make sure the password you write during this stage is the one you can easily recall so that you won't have trouble when you need to access the database later on.
+  
+ 3. Challenges during the creation of extension.
+  
+ -Failure to create extensions:
+ 
+   - extensions should be created in the specific database. i.e your terminal should look like this
+      
+        ` database_name# `
+        and only then you can create extensions.
+  
+   - make sure the words CREATE EXTENSION are in **capital letters** , small letters will lead to errors.
+  
+3. Challenges during editing postgresql.conf and pg_hba.conf files.  
+
+-Can't see the files or failure to edit the files thus the followig should be done:
+
+   - Installation of nano is vital for this stage to work. Thus one is ought to have nano installed before proceeding
+      to this stage.
+
+   - make sure you change the directory as guided above otherwise this won't work.
+
+   - for any change you make in the files you are supposed to save them.
+
+   - make sure you restart the postgresql service using ` sudo service postgresql restart ` otherwise the test configuration in QGIS          won't work.
+
+4. Challenges that can be encountered during Test configuration in QGIS.
+
+- failure to connect to the database: this can be solved either by rewriting your passowrd make sure it is the correct one.
+if not go back to your database and make sure you edit the postgresql.conf and pg_hba. conf files correctly and don't forget to restart the postgresql using `sudo service postgresql restart`
+
 
 ### Links
 
