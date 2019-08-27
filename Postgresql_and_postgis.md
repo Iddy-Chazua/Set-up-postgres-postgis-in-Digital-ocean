@@ -1,4 +1,4 @@
-### Configuration and installation of PostgreSQL and PostGIS.
+### Configuration and installation of PostgreSQL/PostGIS.
 
 ### Introduction.
   
